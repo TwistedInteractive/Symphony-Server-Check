@@ -1,10 +1,3 @@
-<?php
-	if(isset($_GET['info']))
-	{
-		phpinfo();
-		die();
-	}
-?>
 <html>
 	<head>
 		<title>Symphony Server check</title>
@@ -63,9 +56,11 @@
 				
 				if($mysqlVersion == false) {
 					// Retrieve the MySQL version on a more brute way, by loading the phpinfo()-function:
-					$url = 'http://'.$_SERVER['HTTP_HOST'].'/check.php?info';
-					$file = file_get_contents($url);
-					$start = explode("<h2><a name=\"module_mysql\">mysql</a></h2>",$file,1000); 
+					ob_start();
+					phpinfo();
+					$content = ob_get_contents();
+					ob_end_clean();					
+					$start = explode("<h2><a name=\"module_mysql\">mysql</a></h2>",$content,1000); 
 					if(count($start) < 2){ 
 						$mysqlVersion = 'not installed or not detected';
 						if($safeMode) {
@@ -100,6 +95,15 @@
 					$mod_rewrite = in_array('mod_rewrite', $modules);
 				} else {
 					$mod_rewrite =  getenv('HTTP_MOD_REWRITE')=='On' ? true : false ;
+				}
+				if($mod_rewrite == false)
+				{
+					// Last chance: check the phpinfo()-function:
+					ob_start();
+					phpinfo(INFO_MODULES);
+					$content = ob_get_contents();
+					ob_end_clean();
+					$mod_rewrite = strpos($content, 'mod_rewrite') !== false;
 				}
 				addRow('Mod_rewrite', $mod_rewrite ? 'yes' : 'no', $mod_rewrite);
 			?>
