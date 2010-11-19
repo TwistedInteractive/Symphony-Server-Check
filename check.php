@@ -1,3 +1,10 @@
+<?php
+	if(isset($_GET['info']))
+	{
+		phpinfo();
+		die();
+	}
+?>
 <html>
 	<head>
 		<title>Symphony Server check</title>
@@ -19,6 +26,8 @@
 			td.ok { color: #080; font-weight: bold; background: #dfd; }
 			td.wrong { color: #800; font-weight: bold; background: #fdd; }
 			em { color: #888; }
+			p { text-align: center; }
+			p a { color: #888; text-decoration: none; }
 		</style>
 	</head>
 	<body>
@@ -136,5 +145,8 @@
 				addRow('ZipArchive', $zip ? 'yes' : 'no', $zip);
 			?>
 		</table>
+		<p>
+			<a href="?info">show phpinfo()</a>
+		</p>
 	</body>
 </html>
