@@ -59,7 +59,7 @@
 				addRow('XSL', $xsl ? 'yes' : 'no', $xsl);
 				
 				// MySQL Version:
-				$output = shell_exec('mysql -V'); 
+				@$output = shell_exec('mysql -V'); 
 				preg_match('@[0-9]+\.[0-9]+\.[0-9]+@', $output, $version); 
 				$mysqlVersion = $version[0];
 				
@@ -115,6 +115,15 @@
 					$mod_rewrite = strpos($content, 'mod_rewrite') !== false;
 				}
 				addRow('Mod_rewrite', $mod_rewrite ? 'yes' : 'no', $mod_rewrite);
+				if($mod_rewrite == false) {
+					echo '
+						<tr>
+							<td colspan="3">
+								<em>Please note that due to security reasons it\'s not always possible to detect mod_rewrite, so it might be enabled but can\'t be detected.</em>
+							</td>
+						</tr>
+					';
+				}
 			?>
 			<tr><td colspan="3"><br />Optional, not required:</td></tr>
 			<tr>
