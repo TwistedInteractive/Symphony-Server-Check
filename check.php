@@ -31,7 +31,7 @@
 		</style>
 	</head>
 	<body>
-		<h1>Symphony Server check <span>v1.0</span></h1>
+		<h1>Symphony Server check <span>v1.01</span></h1>
 		<table>
 			<tr><td colspan="3">Required:</td></tr>
 			<tr>
@@ -152,6 +152,10 @@
 				// ZIP:
 				// $zip = extension_loaded('ZIP');
 				addRow('ZipArchive', $zip ? 'yes' : 'no', $zip);
+
+                // allow_url_fopen
+                $auf = ini_get('allow_url_fopen');
+                addRow('allow_url_fopen', $auf ? 'yes' : 'no', $auf);
 			?>
 		</table>
 		<p>
